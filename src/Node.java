@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Represents a Node in a doubly linked list.
@@ -58,7 +59,18 @@ public class Node {
    * @return A list of integers representing the values in the linked list.
    */
   public List<Integer> toList() {
-    // TODO: Implement this
-    return null;
+    if(this == null) return null;
+
+    List<Integer> theList = new ArrayList<>();
+    Node head = this;
+    Node current = head;
+
+    while(current != null)
+    {
+      theList.add(current.value);
+      current = current.next;
+    }
+
+    return theList;
   }
 }
