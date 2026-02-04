@@ -38,7 +38,17 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    // TODO: implement this
+    if(list == null || list.size() == 0) throw new IllegalArgumentException();
+    
+    this.value = list.get(0);
+    Node current = this;
+
+    for(int i = 1; i < list.size(); i++) {
+      Node theNode = new Node(list.get(i));
+      current.next = theNode;
+      theNode.prev = current;
+      current = theNode;
+    }
   }
 
   /**
