@@ -43,16 +43,10 @@ class NodeTest {
 
   @Test // test for list constructor when null list is passed in
   void testNullListConstructor() {
-    List<Integer> nullList = new ArrayList<>();
-    nullList.add(null);
+    List<Integer> nullList = null;
 
-    // Act
-    Node head = new Node(nullList);
-
-    // Assert
-    assertNull(head.prev);
-    assertNull(head.value);
-    assertNull(head.next);
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> new Node(nullList));
   }
 
   @Test // test for list constructor that would be useful and cover new ground
