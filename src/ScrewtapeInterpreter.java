@@ -116,8 +116,8 @@ public class ScrewtapeInterpreter {
       if (s == '[') { openBracket.push(i); }
       else if (s == ']') { 
         if (openBracket.isEmpty()) throw new IllegalArgumentException();
-        int closed = openBracket.pop();
-        theMap.put(i, closed);
+        int open = openBracket.pop();
+        theMap.put(i, open);
       }
     }
 
@@ -144,8 +144,40 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
-    return null;
+    String output = "";
+    Map<Integer, Integer> theBracketMap = bracketMap(program);
+
+    for(int i = 0; i < program.length(); i++) {
+      if(program.charAt(i) == '+') {
+        tapePointer.value++;
+      }
+      if(program.charAt(i) == '-') {
+        tapePointer.value--;
+      }
+      if(program.charAt(i) == '>') {
+        if (tapePointer.next == null) {
+          Node nextPiece = new Node(0);
+          nextPiece.prev = tapePointer;
+          tapePointer.next = nextPiece;
+        }
+        tapePointer = tapePointer.next;
+      }
+      if(program.charAt(i) == '<') {
+        if (tapePointer.prev == null) {
+          Node prevPiece = new Node(0);
+          prevPiece.next = tapePointer;
+          tapePointer.prev = prevPiece;
+          tapeHead = prevPiece;
+        }
+        tapePointer = tapePointer.prev;
+      }
+      if(program.charAt(i) == '.') {
+        output += (char) getTapePointerValue();
+      }
+      if(program.charAt(i) == ']') {
+        if(tapePointer.value != 0) { i = theBracketMap.get(i); }
+      }
+    }
+    return output;
   }
 }
